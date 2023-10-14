@@ -21,3 +21,8 @@ This template should help get you started developing with Vue 3 in Vite. The tem
 ## 其他推荐
 + 插件：Volar
 + chrome浏览器
+
+# 主要内容
+## TodoList组件实现
+
+## Rate组件功能实现
