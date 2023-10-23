@@ -1,0 +1,14 @@
+{
+  "name": "yarn_Demo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "prestart":"echo \"1\" ",
+    "start": "echo \"2\" ",
+    "poststart": "echo \"3\" "
+  },
+  "dependencies": {
+    "eslint": "^8.52.0"
+  }
+}

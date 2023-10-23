@@ -14,5 +14,9 @@ export default {
   components: {
     HelloWorld,
   },
+  mounted() {
+    debugger;
+    console.log("mounted");
+  },
 };
 </script>
