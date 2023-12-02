@@ -1,15 +1,14 @@
 import _ from 'lodash';
-import './style.css';
-import Icon from './icon.png'
+import printMe from './print';
 function component(){
   const element = document.createElement('div')
+  const btn = document.createElement('button')
   //lodash
   element.innerHTML=_.join(['Hello','webpack'],'')
-  element.classList.add('hello')
-  // 将图像添加到现有的div中
-  const myIcon = new Image();
-  myIcon.src=Icon
-  element.appendChild(myIcon)
+
+  btn.innerHTML='click me and check the console'
+  btn.onclick=printMe;
+  element.appendChild(btn)
   return element
 }
 document.body.appendChild(component())

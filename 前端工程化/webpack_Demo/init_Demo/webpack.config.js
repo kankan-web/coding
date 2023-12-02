@@ -1,23 +1,22 @@
 const path = require('path');
-
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
-  entry: './src/index.js',
+  // entry: './src/index.js',
+  entry:{
+    index:'./src/index.js',
+    print:'./src/print.js'
+  },
+  plugins:[
+    new HtmlWebpackPlugin({
+      title:'管理输出'
+    })
+  ],
   mode:'development',
   output: {
     // filename: 'main.js',
-    filename:'bundle.js',
+    // filename:'bundle.js',
+    filename:'[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
+    clean:true
   },
-  module:{
-    rules:[
-      {//处理css
-        test:/\.css$/i,
-        use:['style-loader','css-loader']
-      },
-      {
-        test:/\.(png|jpg|svg|jpeg|gif)$/i,
-        type:'asset/resource'
-      }
-    ]
-  }
 };
