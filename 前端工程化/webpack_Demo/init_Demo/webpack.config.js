@@ -1,10 +1,19 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
-  // entry: './src/index.js',
+  mode:'development',
   entry:{
     index:'./src/index.js',
-    print:'./src/print.js'
+    another:'./src/another-module.js'
+    // index:{
+    //   import:'./src/index.js',
+    //   dependOn:'shared'
+    // },
+    //   another:{
+    //     import:'./src/another-module.js',
+    //     dependOn:'shared'
+    //   },
+    // shared:'lodash'
   },
   plugins:[
     new HtmlWebpackPlugin({
@@ -12,10 +21,7 @@ module.exports = {
       title:'开发环境'
     })
   ],
-  mode:'development',
   output: {
-    // filename: 'main.js',
-    // filename:'bundle.js',
     filename:'[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
     clean:true
@@ -24,7 +30,12 @@ module.exports = {
   devServer: {
     static: './dist',
   },
+  // optimization: {
+  //   runtimeChunk: 'single',
+  // },
   optimization: {
-    runtimeChunk: 'single',
+    splitChunks:{
+      chunks:'all'
+    }
   },
 };
