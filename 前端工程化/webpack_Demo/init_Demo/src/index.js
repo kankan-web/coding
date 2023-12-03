@@ -1,12 +1,23 @@
-import _ from 'lodash';
-function component(){
-  const element = document.createElement('div')
-  const btn = document.createElement('button')
-  //lodash
-  element.innerHTML=_.join(['Hello','webpack'],'')
+// function getComponenet(){
+//   return import('lodash').then(({default:_})=>{
+//     const element = document.createElement('div')
+//     element.innerHTML=_.join(['Hello','webpack'],' ')
+//     return element
+//   })
+//   .catch((error)=>'An error occurred while loading the component')
+// }
 
-  btn.innerHTML='click me and check the console'
-  element.appendChild(btn)
+// getComponenet().then((component)=>{
+//   document.body.appendChild(component)
+// })
+
+async function getComponenet(){
+  const element = document.createElement('div')
+  const {default:_}=await import('lodash')
+  element.innerHTML=_.join(['Hello','webpack'],' ')
   return element
 }
-document.body.appendChild(component())
+
+getComponenet().then((component)=>{
+  document.body.appendChild(component)
+})
