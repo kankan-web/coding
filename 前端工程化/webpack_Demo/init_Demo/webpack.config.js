@@ -8,7 +8,8 @@ module.exports = {
   },
   plugins:[
     new HtmlWebpackPlugin({
-      title:'管理输出'
+      // title:'管理输出'
+      title:'开发环境'
     })
   ],
   mode:'development',
@@ -18,5 +19,12 @@ module.exports = {
     filename:'[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
     clean:true
+  },
+  devtool: 'inline-source-map',
+  devServer: {
+    static: './dist',
+  },
+  optimization: {
+    runtimeChunk: 'single',
   },
 };
