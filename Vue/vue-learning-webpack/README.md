@@ -1,24 +1,8 @@
-# vue-learning-webpack
-
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+# 实战小案例
+## 实战1：数据购物车
+代码位置：view/ShoppingCartView.vue中
+功能特点：
+1. 以表格的形式显示书籍列表
+2. 底部显示购买书籍的总价格
+3. 点击+或-按钮可以增加或减少书籍数量。如果为1，则不能继续减少
+4. 单击“移除”按钮，可以将书籍移除。当所有的书籍移除完毕时，显示“购物车为空”
