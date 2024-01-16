@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    .box {
+      border: 1px solid #ccc;
+    }
+
+    .item {
+      width: 50px;
+      height: 50px;
+      background-color: #bfa;
+      border: 1px solid aqua;
+    }
+
+    .float {
+      width: 50px;
+      height: 50px;
+      float: left;
+      border: 1px solid salmon;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 影响与父级同级元素 -->
+  <div class="box">
+    <div class="float">浮动元素</div>
+  </div>
+  <div class="box">
+    <div class="item">其他元素</div>
+    <div class="item">其他元素</div>
+  </div>
+  <!-- 影响同级元素 -->
+  <div class="box">
+    <div class="float">浮动元素</div>
+    <div class="item">其他元素</div>
+    <div class="item">其他元素</div>
+  </div>
+</body>
+
+</html>
