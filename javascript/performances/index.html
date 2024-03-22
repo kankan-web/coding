@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <input type="text">
+  <script src="./debounce.js"></script>
+  <script>
+    const inputEl = document.querySelector('input');
+    let count = 0
+    const inputChange = function () {
+      console.log(`发送了第${++count}次请求`);
+    }
+    // inputEl.oninput = debounce1(inputChange, 1000);
+    inputEl.oninput = debounce2(inputChange, 1000, true); //会立即执行第一次请求
+  </script>
+</body>
+
+</html>
