@@ -2,11 +2,13 @@
 // console.log(Object.getOwnPropertyDescriptors(Promise.prototype))
 
 const promise = new Promise((resolve, reject) => {
-  resolve("hahaha")
+  // resolve("hahaha")
+  reject("hehehe")
 })
 
-// 1.同一个Promise可以被多次调用then方法
+// 1.同一个Promise可以被多次调用then方法-->分开调用
 // 当我们的resolve方法被回调时, 所有的then方法传入的回调函数都会被调用
+//---成功的回调
 // promise.then(res => {
 //   console.log("res1:", res)
 // })
@@ -18,6 +20,17 @@ const promise = new Promise((resolve, reject) => {
 // promise.then(res => {
 //   console.log("res3:", res)
 // })
+//---失败的回调
+// promise.then(()=>{},err=>{
+//   console.log("err1:", err)
+// })
+// promise.then(()=>{},err=>{
+//   console.log("err2:", err)
+// })
+// promise.then(()=>{},err=>{
+//   console.log("err3:", err)
+// })
+
 // 2.then方法传入的 "回调函数: 可以有返回值
 // then方法本身也是有返回值的, 它的返回值是Promise
 
@@ -41,12 +54,12 @@ const promise = new Promise((resolve, reject) => {
 // })
 
 // 3> 如果返回的是一个对象, 并且该对象实现了thenable
-promise.then(res => {
-  return {
-    then: function (resolve, reject) {
-      resolve(222222)
-    }
-  }
-}).then(res => {
-  console.log("res:", res)
-})
+// promise.then(res => {
+//   return {
+//     then: function (resolve, reject) {
+//       resolve(222222)
+//     }
+//   }
+// }).then(res => {
+//   console.log("res:", res)
+// })
