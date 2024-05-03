@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #box{
+      width: 100px;
+      height: 100px;
+      background-color: orange;
+    }
+    .target{
+      width: 200px;
+      height: 200px;
+      border: 1px solid #000;
+      background-color: lightcyan;
+    }
+  </style>
+</head>
+<body>
+  <div class="target">
+    <div id="box" draggable="true"></div>
+  </div>
+  <div class="target"></div>
+  <div class="target"></div>
+  <script type="text/javascript">
+    var dragged;
+    //开始拖拽元素
+    document.addEventListener('dragstart', function(e) {
+      //保存拖拽元素的引用：ref/reference
+      dragged = e.target;
+      e.dataTransfer.setData('text/plain', dragged.id);
+    }, false);
+    //拖拽进入，知道进入都元素都有哪些
+    document.addEventListener('dragenter',function(e){
+      if(e.target.className=='target'){
+        e.target.style.backgroundColor = 'purple';
+      }
+    },false)
+    //拖拽离开，知道离开的元素是什么
+    document.addEventListener('dragleave',function(e){
+      if(e.target.className=='target'){
+        e.target.style.backgroundColor = '';
+      }
+    },false)
+    //拖拽结束
+    document.addEventListener('dragover',function(e){
+      e.preventDefault();//阻止默认行为,让允许投
+    },false)
+    //拖拽结束
+    document.addEventListener('drop',function(e){
+      var data = e.dataTransfer.getData('text')
+      e.dataTransfer.clearData()
+      console.log(e.dataTransfer.files())//获取拖拽文件的信息
+      e.preventDefault()
+      if(e.target.className=='target'){
+        e.target.style.backgroundColor=''
+        dragged.parentNode.removeChild(dragged)//源对象父元素移除拖拽元素
+        e.target.appendChild(dragged)//添加到目标元素
+      }
+    },false)
+  </script>
+</body>
+</html>

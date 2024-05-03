@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="letter"></div>
+  <script type="text/javascript">
+    //1. 基本用法
+    // //requestAnimationFrame(callback)
+    // function animate(){
+    //   //关于动画的代码在下面
+    //   requestAnimationFrame(callback)
+
+    // }
+    // animate()
+    //2.案例1
+    var framesPerSecond = 10;
+    var running=true;
+    var letter=document.getElementById(letters)
+    var body=document.getElementsByClassName('body')[0]
+    body.addEventListener('click',function(){
+      running=false
+    },false)
+
+    var requestAnimationFrame=
+    window.requestAnimationFrame||
+    window.mozRequestAnimationFrame||
+    window.webkitRequestAnimationFrame||
+    window.msRequestAnimationFrame||
+    window.oRequestAnimationFrame||
+    function(callback){
+      setTimeout(callback,1000/framesPerSecond)
+    }
+
+    //26个英文字母的数组
+    var letters='abcdefghijklmnopgrstuvwxyz'.split('')
+
+    function cycleLetter(){
+      setTimeout(function(){
+        requestAnimationFrame(cycleLetter)
+        //关于动画的代码在下面
+        if(running){
+          var curLetter, idx;
+          idx = Math.floor(Math.random() * letters.length)
+          curLetter = letters[idx]
+          letters.innerHTML = curLetter
+        }
+      },1000/framesPerSecond)
+    }
+    cycleLetter()
+  </script>
+</body>
+</html>
