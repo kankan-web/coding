@@ -1,0 +1,15 @@
+{
+  "name": "04json-loader",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "example": "cd example && node build.js"
+  },
+  "directories": {
+    "example": "example"
+  },
+  "author": "",
+  "license": "ISC"
+}
+
