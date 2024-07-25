@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="canvas" width="800" height="800"></canvas>
+    <script>
+        const canvas=document.getElementById('canvas')
+        const ctx = canvas.getContext('2d');//获取Canvas对象
+        ctx.fillStyle ='red'//修改填充色为红色
+        ctx.fillRect(0,0,50,50);//红色正方形
+
+        //绘制线段
+        ctx.beginPath()
+        ctx.lineWidth=1//线段宽度
+        ctx.strokeStyle='blue'//颜色为蓝色
+        ctx.moveTo(100,100)//起点
+        ctx.lineTo(250,75)//中点
+        ctx.lineTo(300,100)//终点坐标
+        ctx.stroke();//绘制线段
+
+        //绘制圆形
+        ctx.beginPath()//重新开始
+        ctx.lineWidth=2
+        ctx.strokeStyle='green';
+        ctx.fillStyle='red'
+        ctx.arc(200,200,50,0,2*Math.PI)//x，y，半径，起始角度，终止角度：绘制圆形
+        ctx.stroke()
+        ctx.fill()
+
+        //绘制点
+        ctx.beginPath()
+        ctx.lineWidth=2//线段宽度
+        ctx.strokeStyle='red'//颜色为蓝色
+        ctx.lineTo(300,300)//终点坐标
+        ctx.lineTo(301,301)//终点坐标
+        ctx.stroke();//绘制线段
+
+    </script>
+</body>
+</html>
