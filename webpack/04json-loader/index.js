@@ -1,5 +1,5 @@
 module.exports = function (source) {
-  debugger;
+  console.log("this", this);
   // 为了避免 JSON 有语法错误，所以先 parse/stringify 一遍
   return `module.exports = ${JSON.stringify(JSON.parse(source))}`;
 
