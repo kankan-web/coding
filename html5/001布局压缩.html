@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .parent {
+      width: 500px;
+      margin: 100px auto;
+      border: 1px solid #ccc;
+      display: flex;
+    }
+    span {
+      margin-right: 10px;
+      flex-shrink: 0;
+    }
+    .child {
+      flex: 1;
+      display: flex;
+      flex-wrap: nowrap;
+      overflow: hidden;
+    }
+    .child-item {
+      flex: 0 1 auto;
+      min-width: 0;
+      height: 100px;
+      background-color: #ccc;
+      margin: 10px;
+      padding: 0 10px;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+    .child-item-title {
+      flex-shrink: 0;
+      margin-right: 5px;
+    }
+    .child-item-separator {
+      flex-shrink: 0;
+      margin: 0 5px;
+    }
+    .child-item-content {
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+  <!-- 父级容器中包含多个子容器，每个子容器中包含一个标题、一个分隔符和一个内容。
+  每个子容器都使用flex布局，并且内容可以自动调整大小以适应容器。
+  使用text-overflow: ellipsis和white-space: nowrap来确保内容过长时显示省略号。 -->
+  <div class="parent">
+    <span>筛选条件：</span>
+    <div class="child">
+      <div class="child-item">
+        <div class="child-item-title">标题</div>
+        <span class="child-item-separator">|</span>
+        <div class="child-item-content">我是内容1</div>
+      </div>
+      <div class="child-item">
+        <div class="child-item-title">标题</div>
+        <span class="child-item-separator">|</span>
+        <div class="child-item-content">我是内容2</div>
+      </div>
+      <div class="child-item">
+        <div class="child-item-title">标题</div>
+        <span class="child-item-separator">|</span>
+        <div class="child-item-content">我是内容3</div>
+      </div>
+      <div class="child-item">
+        <div class="child-item-title">标题</div>
+        <span class="child-item-separator">|</span>
+        <div class="child-item-content">我是内容4</div>
+      </div>
+    <div class="child-item">
+        <div class="child-item-title">标题</div>
+        <span class="child-item-separator">|</span>
+        <div class="child-item-content">我是内容4</div>
+      </div>
+      
+    </div>
+  </div>
+</body>
+</html>
