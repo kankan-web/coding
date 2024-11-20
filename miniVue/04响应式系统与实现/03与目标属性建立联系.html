@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  hello
+ 
+</body>
+ <script>
+  //当修改了obj的另一个属性时，也会触发effect函数
+  //这不是我们想要的
+  const obj={text:'hello world'}
+  const bucket=new WeakMap()
+  const newObj = new Proxy(obj, {
+    get(target, key) {
+      if(!activeEffect) return target[key]
+      let detpMap = bucket.get(target)
+      if(!detpMap){
+        detpMap=new Map()
+        bucket.set(target,detpMap)
+      }
+      let detp=detpMap.get(key)
+      if(!detp){
+        detp=new Set()
+        detpMap.set(key,detp)
+      }
+      detp.add(activeEffect)
+      return target[key];
+    },
+    set(target, key, newValue) {
+      target[key] = newValue;
+      const detpMap=bucket.get(target)
+      if(!detpMap) return
+      const effects=detpMap.get(key)
+      effects&&effects.forEach(fn=>fn())
+      return true;
+    }
+  })
+  let activeEffect;
+  //用于注册副作用函数
+  function effect(fn){
+    activeEffect=fn
+    fn()
+  }
+  effect(()=>{
+    document.body.innerHTML=newObj.text
+  })
+
+   setTimeout(()=>{
+    newObj.text='李四'
+  },1000)
+   
+  </script>
+</html>

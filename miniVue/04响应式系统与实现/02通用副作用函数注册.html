@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  hello
+ 
+</body>
+ <script>
+  //希望对任意名称对函数都能实现通用的注册
+  const obj={text:'hello world'}
+  const bucket=new Set()
+  const newObj = new Proxy(obj, {
+    get(target, key) {
+      bucket.add(activeEffect);
+      return target[key];
+    },
+    set(target, key, newValue) {
+      target[key] = newValue;
+      bucket.forEach(fn => fn());
+      return true;
+    }
+  })
+  let activeEffect;
+  //用于注册副作用函数
+  function effect(fn){
+    activeEffect=fn
+    fn()
+  }
+  effect(()=>{
+    document.body.innerHTML=newObj.text
+  })
+
+   setTimeout(()=>{
+    newObj.text='李四'
+  },1000)
+   
+  </script>
+</html>
