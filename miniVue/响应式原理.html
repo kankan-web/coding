@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  hello
+ 
+</body>
+ <script>
+  //  const obj={
+  //   text:'hello world'
+  //  }
+  //  effect(()=>{
+  //   document.body.innerHTML=obj.text
+  //  })
+   /*
+   1. 什么是响应式数据
+   - 当上述obj.text发生修改时，会触发effect函数的执行
+   2. 什么是副作用函数
+   - 会影响到外部变量的函数 
+   */
+  //如何实现?对obj的属性读取与设置进行拦截  
+  
+  const bucket=new Set()
+  const obj={
+    text:'hello world'
+   }
+  const newObj = new Proxy(obj, {
+    get(target, key) {
+      bucket.add(effectNew);
+      return target[key];
+    },
+    set(target, key, newValue) {
+      target[key] = newValue;
+      bucket.forEach(fn => fn());
+      return true;
+    }
+  })
+  function effectNew(){
+    document.body.innerHTML=newObj.text
+  }
+  effectNew()
+  setTimeout(()=>{
+    newObj.text='李四'
+  },1000)
+   
+  </script>
+</html>
