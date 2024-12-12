@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>react闭包陷阱</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>Z
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    //对方法三点封装
+    function useInterval(fn, time) {
+      const ref = React.useRef(fn);
+      ref.current = fn; // 更新 ref 的值
+
+      /**
+       * 为什么要使用useCallback呢？
+       * 因为这个返回的函数可能作为参数传入别的组件，这样用 useCallback 包裹就可以避免该参数的变化，配合 memo 可以起到减少没必要的渲染的效果。
+       */
+      let cleanUpFnRef = React.useRef();
+      const clean = React.useCallback(() =>{
+          cleanUpFnRef.current?.();
+      }, []);
+
+      React.useEffect(() => {
+          const timer = setInterval(() => ref.current(), time);
+
+        cleanUpFnRef.current = ()=> {
+            clearInterval(timer);
+        }
+
+        //返回 clean 函数在组件销毁的时候自动调用来清理定时器。
+        return clean;
+      }, []);
+
+      return clean;
+    }
+
+
+    function Counter() {
+      const [count, setCount] = React.useState(0);
+      const [count2, setCount2] = React.useState(0);
+      const [count3, setCount3] = React.useState(0);
+      const [count4, setCount4] = React.useState(0);
+
+      // 闭包陷阱
+      React.useEffect(() => {
+        setInterval(()=>{
+          console.log('count1 ',count)
+          setCount(count+1)
+        },1000)
+      }, [])
+
+      // 解决方式1
+      React.useEffect(() => {
+        setInterval(()=>{
+          console.log('count2 ',count2) 
+          setCount2(count2=>count2+1)
+        },1000)
+      }, [])
+
+      // 解决方式2
+      //这种解法是能解决闭包陷阱的，但在这里并不合适，因为 effect 里跑的是定时器，每次都重新跑定时器，那定时器就不是每 1s 执行一次了。
+      // React.useEffect(() => {
+      //   setInterval(()=>{
+      //     console.log('count3 ',count3) 
+      //     setCount3(count3+1)
+      //   },1000)
+      // }, [count3])
+
+      // 解决方式3
+      const updateCount = ()=>{
+        setCount3(count4+1)
+      }
+      const ref = React.useRef(updateCount)
+      ref.current = updateCount;
+
+      React.useEffect(() => {
+        const timer = setInterval(()=>ref.current(),1000)
+        return ()=>{
+          clearInterval(timer)
+        }
+      }, [])
+
+      //封装方法的使用
+       useInterval(updateCount, 1000);
+      
+      return (
+        <div>
+          <h1>{count}</h1>
+          <div>闭包效果展示</div>
+          <hr/>
+          <h1>{count2}</h1>
+          <div>解决方式1</div>
+          <hr/>
+          <h1>{count3}</h1>
+          <div>解决方式2</div>
+          <hr />
+          <h1>{count4}</h1>
+          <div>解决方式3</div>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<Counter />);
+  </script>
+</body>
+</html>
