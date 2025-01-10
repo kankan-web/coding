@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app"></div>
+  <div id="app2"></div>
+  <script>
+    // 基于 Object.defineProperty 实现响应式 -- 简单实现
+    // function updateSimple() {
+    //   app.innerText = objSimple.foo;
+    // }
+
+    // function defineReactiveSimple(obj, key, val) {
+    //   Object.defineProperty(obj, key, {
+    //     get() {
+    //       console.log(`get ${key}: ${val}`);
+    //       return val;
+    //     },
+    //     set(newVal) {
+    //       if (newVal !== val) {
+    //         val = newVal;
+    //         updateSimple();
+    //       }
+    //     }
+    //   });
+    // }
+
+    // const objSimple = {};
+    // defineReactiveSimple(objSimple, 'foo', '');
+    // setTimeout(() => {
+    //   objSimple.foo = new Date().toLocaleTimeString();
+    // }, 1000);
+
+    // 基于 Object.defineProperty 实现响应式 -- 复杂实现
+    function update() {
+      app.innerText = obj.foo;
+      app2.innerText = obj.bar.baz;
+    }
+
+    // 如果存在嵌套对象的情况，还需要在 defineReactive 中进行递归
+    function defineReactive(obj, key, val) {
+      observe(val);
+      Object.defineProperty(obj, key, {
+        get() {
+          console.log(`get ${key}: ${val}`);
+          return val;
+        },
+        set(newVal) {
+          if (newVal !== val) {
+            val = newVal;
+            observe(newVal);
+            update();
+          }
+        }
+      });
+    }
+
+    // 在对象存在多个 key 情况下，需要进行遍历
+    function observe(obj) {
+      if (typeof obj !== 'object' || obj == null) {
+        return;
+      }
+      Object.keys(obj).forEach(key => {
+        defineReactive(obj, key, obj[key]);
+      });
+    }
+
+    const obj = { foo: '', bar: { baz: '' } };
+    observe(obj);
+    setTimeout(() => {
+      obj.foo = new Date().toLocaleTimeString();
+      obj.bar.baz = '李四';
+    }, 1000);
+    console.log('--------------------------------') 
+    let list = [1,2,3,4];
+    observe(list);
+    console.log(list[0]) // 拦截到正在获取属性：0
+    list[0] = 2; // 拦截到正在修改属性：0
+    console.log('list[0]',list[0])
+    list[6] = 6; // 无法拦截...
+    console.log('list[6]',list[6])
+    list.push(3); // 无法拦截...
+    console.log('list.push(3)',list)
+  </script>
+</body>
+</html>
