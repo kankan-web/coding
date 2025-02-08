@@ -11,6 +11,7 @@
 </body>
  <script>
   //希望对任意名称对函数都能实现通用的注册
+  //---------------数据对象---------------
   const obj={text:'hello world'}
   const bucket=new Set()
   const newObj = new Proxy(obj, {
@@ -24,18 +25,23 @@
       return true;
     }
   })
+  //---------------副作用函数---------------
   let activeEffect;
   //用于注册副作用函数
   function effect(fn){
     activeEffect=fn
     fn()
   }
+
+  //---------------测试效果---------------
   effect(()=>{
+    console.log('effect')
     document.body.innerHTML=newObj.text
   })
 
    setTimeout(()=>{
-    newObj.text='李四'
+    // newObj.text='李四'
+    newObj.hello = 'hello vue'
   },1000)
    
   </script>
