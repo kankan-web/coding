@@ -1,11 +1,21 @@
 <script setup>
-import { ref } from 'vue'
+import { ref,onMounted,onBeforeUnmount,onUnmounted } from 'vue'
 
 defineProps({
   msg: String,
 })
 
 const count = ref(0)
+console.log('子组件 setup 初始化')
+onMounted(()=>{
+  console.log('子组件 onMounted')
+})
+onBeforeUnmount(()=>{
+  console.log('子组件 beforeUnmount')
+})
+onUnmounted(()=>{
+  console.log('子组件 onUnmounted')
+})
 </script>
 
 <template>

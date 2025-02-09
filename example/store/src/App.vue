@@ -1,4 +1,5 @@
 <script setup>
+import { onMounted,onBeforeUnmount,onUnmounted } from 'vue';
 import HelloWorld from './components/HelloWorld.vue'
 // import { useStore } from 'vuex'
 // let vuexStore = useStore()
@@ -7,6 +8,17 @@ import HelloWorld from './components/HelloWorld.vue'
 import { storeA } from './piniaStore/storeA'
 let piniaStoreA = storeA()
 console.log(piniaStoreA.piniaMsg); //hello pinia
+console.log('父组件 setup 初始化')
+onMounted(()=>{
+  console.log('父组件 onMounted')
+})
+onBeforeUnmount(()=>{
+  console.log('父组件 beforeUnmount')
+})
+onUnmounted(()=>{
+  console.log('父组件 onUnmounted')
+})
+
 </script>
 
 <template>
