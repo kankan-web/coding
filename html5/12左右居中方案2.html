@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>margin：0 auto</title>
+  <style>
+   .parent {
+  height: 300px;
+  width: 400px;
+  background:  #fcc;
+}
+.child {
+  height: 100px;
+  /* //确保该块级元素定宽 */
+  width: 100px; 
+  background: #f66;
+  margin: 0 auto;
+}
+  </style>
+</head>
+<body>
+  <div class="parent">
+    <div class="child">我是行内元素</div>
+</div>
+</body>
+</html>

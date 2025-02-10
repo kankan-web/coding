@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>text-align:center</title>
+  <style>
+    /* // 父元素是块级元素 */
+    .parent1 {
+      height: 300px;
+      width: 300px;
+      text-align: center;
+      background: skyblue;
+    }
+
+    /* // 父元素是行内元素 */
+    .parent2 {
+      height: 300px;
+      width: 300px;
+      display: block;
+      text-align: center;
+      background: skyblue;
+    }
+  </style>
+</head>
+<body>
+  <div class="parent1">
+    <span id="child1">我是行内元素</span>
+  </div>
+  <hr>
+  <span class="parent2">
+    <span id="child2">我是行内元素</span>
+  </span>
+</body>
+</html>

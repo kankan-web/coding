@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>absolute+transform</title>
+  <style>
+.parent {
+  height: 300px;
+  width: 400px;
+  position: relative;
+  background:  #fcc;
+}
+.child {
+  position: absolute;
+  background: #f66;
+  left: 50%;
+  /*  // 通用 */
+  transform: translateX(-50%);
+  /** 定宽度可使用margin-left **/
+  width: 100px;
+  margin-left: -50px;
+}
+  </style>
+</head>
+<body>
+  <div class="parent">
+    <div class="child">我是行内元素</div>
+</div>
+</body>
+</html>

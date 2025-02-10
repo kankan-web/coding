@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>absolute+marginn</title>
+  <style>
+.parent {
+  height: 300px;
+  width: 400px;
+  position: relative;
+  background:  #fcc;
+}
+.child {
+  position: absolute;
+  background: #f66;
+  width: 200px;
+  height: 100px;
+  margin: 0 auto; /*水平居中*/
+  left: 0; /*此处不能省略，且为0*/
+  right: 0;/*此处不能省略，且为0*/
+}
+  </style>
+</head>
+<body>
+  <div class="parent">
+    <div class="child">我是行内元素</div>
+</div>
+</body>
+</html>
