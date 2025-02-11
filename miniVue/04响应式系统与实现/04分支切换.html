@@ -1,72 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
 </head>
+
 <body>
-  hello
- 
+
 </body>
- <script>
-  //当修改了obj的另一个属性时，也会触发effect函数
-  //这不是我们想要的
-  const obj={
-    ok:true,
-    text:'hello world'
-  }
-  const bucket=new WeakMap()
-  const newObj = new Proxy(obj, {
+<script>
+  const data = { ok: true, text: 'hello world' }
+
+  const obj = new Proxy(data, {
     get(target, key) {
-      if(!activeEffect) return target[key]
-      let detpMap = bucket.get(target)
-      if(!detpMap){
-        detpMap=new Map()
-        bucket.set(target,detpMap)
-      }
-      let detp=detpMap.get(key)
-      if(!detp){
-        detp=new Set()
-        detpMap.set(key,detp)
-      }
-      detp.add(activeEffect)
-      return target[key];
+      track(target, key)//设置副作用函数存储入桶
+      return target[key]
     },
-    set(target, key, newValue) {
-      target[key] = newValue;
-      const detpMap=bucket.get(target)
-      if(!detpMap) return
-      const effects=detpMap.get(key)
-      effects&&effects.forEach(fn=>fn())
-      return true;
+    set(target, key, newVal) {
+      target[key] = newVal
+      trigger(target, key)//副作用函数取出并执行
     }
   })
-  let activeEffect;
-  //用于注册副作用函数
-  function effect(fn){
-    activeEffect=fn
-    fn()
+  
+  //清除依赖关系
+  function cleanup(effectFn){
+    for(let i=0;i<effectFn.deps.length;i++){
+      const deps = effectFn.deps[i]
+      deps.delete(effectFn)
+    }
+    effectFn.deps.length = 0
   }
-  /**
-   * 问题：之前的代码存在一个问题，第一次副作用函数执行时，就构建好了对象每个属性对应的副作用函数
-   * 当修改newObj.ok为false时，对应显示的数据为空
-   * 当再次修改newObj.text时，虽然显示还是为空，但是由于text有对应的副作用，所以副作用函数又执行了一次
-   * 
-   * 解决思路：
-  */
-  effect(()=>{
-    console.log('开始执行')//执行了三次
-    document.body.innerHTML=newObj.ok?newObj.text:'空'
-  })
 
-  setTimeout(()=>{
-    newObj.ok=false
-  },3000)
+  //设置副作用函数
+  let activeEffect
+  function effect(fn) {
+    const effectFn = () => {
+      //清除副作用函数
+      cleanup(effectFn)
+      activeEffect = effectFn
+      fn()
+    }
+    effectFn.deps = []
+    effectFn()
+  }
 
-  //  setTimeout(()=>{
-  //   newObj.text='李四'
-  // },3000)
-   
-  </script>
+  const bucket = new WeakMap()
+  
+  //设置副作用函数存储入桶
+  function track(target, key) {
+    if (!activeEffect) return target[key]
+
+    let depsMap = bucket.get(target)
+    if (!depsMap) {
+      bucket.set(target, (depsMap = new Map()))
+    }
+    let deps = depsMap.get(key)
+    if (!deps) {
+      depsMap.set(key, (deps = new Set()))
+    }
+    
+    activeEffect.deps.push(deps)
+    deps.add(activeEffect)
+  }
+
+  //触发副作用函数
+  function trigger() {
+    const depsMap = bucket.get(target)
+    if (!depsMap) return
+    const effects = depsMap.get(key)
+    const effectsToRun = new Set(effects)
+    effectsToRun.forEach(effectFn => effectFn())//新增
+    // effects && effects.forEach(fn => fn)//删除
+  }
+
+  
+</script>
+
 </html>
