@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+  const data = { ok: true, text: 'hello world' }
+
+  const obj = new Proxy(data, {
+    get(target, key) {
+      track(target, key)//设置副作用函数存储入桶
+      return target[key]
+    },
+    set(target, key, newVal) {
+      target[key] = newVal
+      trigger(target, key)//副作用函数取出并执行
+    }
+  })
+  
+  //清除依赖关系
+  function cleanup(effectFn){
+    for(let i=0;i<effectFn.deps.length;i++){
+      const deps = effectFn.deps[i]
+      deps.delete(effectFn)
+    }
+    effectFn.deps.length = 0
+  }
+
+  //设置副作用函数
+  let activeEffect
+  //栈
+  let effectStack = []
+  function effect(fn) {
+    const effectFn = () => {
+      //清除副作用函数
+      cleanup(effectFn)
+      activeEffect = effectFn
+      //将当前副作用函数压入栈
+      effectStack.push(effectFn)
+      fn()
+      //将当前副作用函数弹出栈
+      effectStack.pop()
+      //将栈顶副作用函数设置为当前副作用函数
+      activeEffect = effectStack[effectStack.length - 1]
+    }
+    effectFn.deps = []
+    effectFn()
+  }
+
+  const bucket = new WeakMap()
+  
+  //设置副作用函数存储入桶
+  function track(target, key) {
+    if (!activeEffect) return target[key]
+
+    let depsMap = bucket.get(target)
+    if (!depsMap) {
+      bucket.set(target, (depsMap = new Map()))
+    }
+    let deps = depsMap.get(key)
+    if (!deps) {
+      depsMap.set(key, (deps = new Set()))
+    }
+    
+    activeEffect.deps.push(deps)
+    deps.add(activeEffect)
+  }
+
+  //触发副作用函数
+  function trigger() {
+    const depsMap = bucket.get(target)
+    if (!depsMap) return
+    const effects = depsMap.get(key)
+    const effectsToRun = new Set(effects)
+    effectsToRun.forEach(effectFn => effectFn())//新增
+    // effects && effects.forEach(fn => fn)//删除
+  }
+
+  
+</script>
+
+</html>
