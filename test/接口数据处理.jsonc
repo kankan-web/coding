@@ -1,0 +1,55 @@
+{
+  "defaultSuccessCode": 0,
+  "code": 0,
+  "data": {
+    "total_cnt": 125,
+    "anchor_list": [
+      {
+        "uid": "", // 主播uid
+        "bigoid": "", // 主播bigoid
+        "name": "", // 主播昵称
+        "head": "", // 头像url
+        "broker_uid": "", // 经纪人uid
+        "broker_bigoid": "", // 经纪人bigoid
+        "broker_name": "", // 经纪人昵称
+        "this_month_live_stream_duration": 0, // 本月直播时长秒
+        "sixty_days_live_stream_duration": 0, // 60天直播时长秒
+        "last_live_stream_time": "", // 上次直播时间，秒时间戳
+        "total_fans_cnt": 0, // 总粉丝数
+        "contract_start_time": "", // 合约开始时间
+        "contract_end_time": "", // 合约结束时间
+        "sign_type": 0, // 签约类型，0-线下，1-线上
+        "sign_status": 0, // 签约状态 0待审核 1审核通过 2审核不通过 3待续约 4已续约 5已解约 6已失效
+        "is_contract_renewing": 0, // 是否续约中，发起续约后未确认的状态，1-是，0-否
+        "qry_context": "", // 用于分页查询
+        "policy_id": "", // 政策id
+        "policy_code": "", // 政策编号
+        "transfer_status": 0, // 0-不可转会；1-可转会；2-转会中
+        "cancel_contract_status": 0, // 0-不可解约；1-可解约；2-解约中
+        "this_month_livedata_bean": "", // 本月金豆收入，int64
+        "sixty_days_livedata_bean": "", // 60天金豆收入，int64
+        "next_contract_start_time": "", // 已续约的新合同开始时间
+        "next_contract_end_time": "", // 已续约的新合同结束时间
+        "to_renew": false, // #85459 是否展示续约按钮
+        "identity": [ // qry_type== 6时，1:新入会，2:新主播
+          0
+        ],
+        "star_level": 0, // 星级
+        "new_anchor_day": "", // 成为新主播的日期
+        "new_anchor_day_end": "", // 新主播最后一天
+        "star_eval_status": 0, // qry_type=6时，星级评估状态，0:初始化,1:重评中,2:已重评
+        "star_eval_entry": 0, // qry_type=6时，星级评估入口，0:无入口,1:可重评qry_sub_type
+        "open_group_stream_entry": false, // 查询是否团播房主
+        "loss_warning_type": 0, // qry_type=7 预流失
+        "action_suggestion": "", // 操作建议
+        "possible_loss_beans": 0, // 可能流失的金豆数
+        "remaining_coop_days": 0, // 剩余合作天数
+        "potential_type": 0, // qry_type=8 潜力主播
+        "coop_days": 0, // 合作天数
+        "live_status": 0, // qry_type=9 直播中，0-未直播，1-直播中
+        "today_live_duration": 0 // 今日直播时长秒
+      }
+    ]
+  },
+  "message": ""
+}

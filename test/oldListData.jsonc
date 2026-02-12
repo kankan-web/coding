@@ -1,0 +1,47 @@
+{
+  "seq_id": 123456789, // uint32请求序号
+  "code": 0, // 0-成功，其他-失败
+  "message": "", // 错误信息
+  "data": {
+    "total_cnt": 20, // 总记录数
+    "anchor_list": [
+      {
+        "uid": "123456789", // 主播uid
+        "bigoid": "bigoid", // 主播bigoid
+        "name": "主播昵称",
+        "head": "头像url",
+        "broker_uid": "123456789", // 经纪人uid
+        "broker_bigoid": "bigoid", // 经纪人bigoid
+        "broker_name": "经纪人昵称",
+        // "this_month_bean_income":1000,       // 本月金豆收入（废弃）
+        "this_month_live_stream_duration": 3600, // 本月直播时长秒
+        // "sixty_days_bean_income:":2000,      // 60天金豆收入（废弃）
+        "sixty_days_live_stream_duration": 7200, // 60天直播时长秒
+        "last_live_stream_time": "1689671913", // 上次直播时间，秒时间戳
+        "total_fans_cnt": 10000, // 总粉丝数
+        "contract_start_time": "2023-01-01", // 合约开始时间
+        "contract_end_time": "2023-03-01", // 合约结束时间
+        "sign_type": 1, // 签约类型，0-线下，1-线上
+        "sign_status": 1, // 签约状态 0待审核 1审核通过 2审核不通过 3待续约 4已续约 5已解约 6已失效
+        "is_contract_renewing": 1, // 是否续约中，发起续约后未确认的状态，1-是，0-否
+        "qry_context": "abcdefg", // 用于分页查询
+        "policy_id": "1647951835634", // 政策id
+        "policy_code": "US-BP001", // 政策编号
+        "transfer_status": 1, // 0-不可转会；1-可转会；2-转会中
+        "cancel_contract_status": 1, // 0-不可解约；1-可解约；2-解约中
+        "this_month_livedata_bean": "-100", // 本月金豆收入，int64
+        "sixty_days_livedata_bean": "-100", // 60天金豆收入，int64
+        "next_contract_start_time": "2024-01-01", // 已续约的新合同开始时间
+        "next_contract_end_time": "2024-01-01", // 已续约的新合同结束时间
+        "to_renew": true, // #85459 是否展示续约按钮
+        "identity": [1, 2], // qry_type== 6时，1:新入会，2:新主播
+        "star_level": 0, // 星级
+        "new_anchor_day": "", // 成为新主播的日期
+        "new_anchor_day_end": "", // 新主播最后一天
+        "star_eval_status": 0, // qry_type=6时，星级评估状态，0:初始化,1:重评中,2:已重评
+        "star_eval_entry": 1, // qry_type=6时，星级评估入口，0:无入口,1:可重评qry_sub_type
+        "open_group_stream_entry": true // 查询是否团播房主
+      }
+    ]
+  }
+}
