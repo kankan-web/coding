@@ -1,0 +1,21 @@
+{
+  "name": "playwright",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@types/node": "^25.2.3",
+    "@types/turndown": "^5.0.6",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.21.0"
+  },
+  "dependencies": {
+    "turndown": "^7.2.2"
+  }
+}
