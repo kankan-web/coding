@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "type": "module",
-  "scripts": {},
+  "scripts": {
+    "scrape": "tsx scraper/index.ts",
+    "convert": "tsx scraper/markdown-converter.ts",
+    "dev": "tsx watch scraper/index.ts"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

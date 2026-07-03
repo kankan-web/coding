@@ -194,25 +194,28 @@
 #### 路由懒加载
 
 - **Vue Router 懒加载**
+
   ```javascript
   // 方式 1: 动态 import
   const routes = [
     {
-      path: '/about',
-      component: () => import('./views/About.vue')
-    }
-  ]
-  
+      path: "/about",
+      component: () => import("./views/About.vue"),
+    },
+  ];
+
   // 方式 2: 使用 webpackChunkName 注释
-  const About = () => import(/* webpackChunkName: "about" */ './views/About.vue')
+  const About = () =>
+    import(/* webpackChunkName: "about" */ "./views/About.vue");
   ```
 
 - **React Router 懒加载**
+
   ```javascript
-  import { lazy, Suspense } from 'react'
-  
-  const About = lazy(() => import('./views/About'))
-  
+  import { lazy, Suspense } from "react";
+
+  const About = lazy(() => import("./views/About"));
+
   function App() {
     return (
       <Suspense fallback={<div>Loading...</div>}>
@@ -220,7 +223,7 @@
           <Route path="/about" element={<About />} />
         </Routes>
       </Suspense>
-    )
+    );
   }
   ```
 
@@ -236,110 +239,111 @@
 #### Vite 项目配置
 
 1. **基础生产配置**
-
    - 修改 `vite.config.ts`，添加生产构建配置
    - 配置环境变量
    - 设置构建输出目录和文件名策略
 
 2. **配置示例**
+
    ```typescript
    // vite.config.ts
-   import { defineConfig } from 'vite'
-   import vue from '@vitejs/plugin-vue'
-   import { resolve } from 'path'
-   
+   import { defineConfig } from "vite";
+   import vue from "@vitejs/plugin-vue";
+   import { resolve } from "path";
+
    export default defineConfig({
      plugins: [vue()],
-     
+
      // 基础路径配置
-     base: '/',
-     
+     base: "/",
+
      // 构建配置
      build: {
        // 输出目录
-       outDir: 'dist',
+       outDir: "dist",
        // 静态资源目录
-       assetsDir: 'assets',
-       
+       assetsDir: "assets",
+
        // 文件名配置（包含 hash）
        rollupOptions: {
          output: {
            // chunk 文件名
-           chunkFileNames: 'assets/js/[name]-[hash].js',
+           chunkFileNames: "assets/js/[name]-[hash].js",
            // 入口文件名
-           entryFileNames: 'assets/js/[name]-[hash].js',
+           entryFileNames: "assets/js/[name]-[hash].js",
            // 静态资源文件名
-           assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
+           assetFileNames: "assets/[ext]/[name]-[hash].[ext]",
            // 手动代码分割
            manualChunks(id) {
              // 将 node_modules 中的依赖单独打包
-             if (id.includes('node_modules')) {
-               return 'vendor'
+             if (id.includes("node_modules")) {
+               return "vendor";
              }
-           }
-         }
+           },
+         },
        },
-       
+
        // 压缩配置
-       minify: 'terser',
+       minify: "terser",
        terserOptions: {
          compress: {
            // 移除 console
            drop_console: true,
            // 移除 debugger
-           drop_debugger: true
-         }
+           drop_debugger: true,
+         },
        },
-       
+
        // 代码分割配置
        chunkSizeWarningLimit: 1000,
-       
+
        // 生成 sourcemap（生产环境建议关闭）
-       sourcemap: false
-     }
-   })
+       sourcemap: false,
+     },
+   });
    ```
 
 3. **环境变量配置**
+
    ```bash
    # .env.production
    VITE_API_BASE_URL=https://api.example.com
    VITE_APP_TITLE=生产环境
    ```
-   
+
    ```typescript
    // 在代码中使用
-   const apiUrl = import.meta.env.VITE_API_BASE_URL
+   const apiUrl = import.meta.env.VITE_API_BASE_URL;
    ```
 
 #### Webpack 项目配置
 
 1. **基础生产配置**
-
    - 修改 `webpack.config.js`，设置 mode: 'production'
    - 配置代码压缩和优化插件
 
 2. **配置示例**
+
    ```javascript
    // webpack.config.js
-   const path = require('path')
-   const TerserPlugin = require('terser-webpack-plugin')
-   
+   const path = require("path");
+   const TerserPlugin = require("terser-webpack-plugin");
+
    module.exports = {
-     mode: 'production',
-     
+     mode: "production",
+
      entry: {
-       main: './src/main.js'
+       main: "./src/main.js",
      },
-     
+
      output: {
-       path: path.resolve(__dirname, 'dist'),
-       filename: 'assets/js/[name]-[contenthash].js',
-       chunkFilename: 'assets/js/[name]-[contenthash].js',
+       path: path.resolve(__dirname, "dist"),
+       filename: "assets/js/[name]-[contenthash].js",
+       chunkFilename: "assets/js/[name]-[contenthash].js",
        clean: true,
-       publicPath: '/'
+       publicPath: "/",
      },
-     
+
      optimization: {
        minimize: true,
        minimizer: [
@@ -347,52 +351,52 @@
            terserOptions: {
              compress: {
                drop_console: true,
-               drop_debugger: true
-             }
-           }
-         })
+               drop_debugger: true,
+             },
+           },
+         }),
        ],
        splitChunks: {
-         chunks: 'all',
+         chunks: "all",
          cacheGroups: {
            // 第三方库单独打包
            vendor: {
              test: /[\\/]node_modules[\\/]/,
-             name: 'vendors',
+             name: "vendors",
              priority: 10,
-             reuseExistingChunk: true
+             reuseExistingChunk: true,
            },
            // 公共代码提取
            common: {
              minChunks: 2,
              priority: 5,
-             reuseExistingChunk: true
-           }
-         }
-       }
-     }
-   }
+             reuseExistingChunk: true,
+           },
+         },
+       },
+     },
+   };
    ```
 
 3. **环境变量配置**
+
    ```javascript
    // webpack.config.js
-   const webpack = require('webpack')
-   
+   const webpack = require("webpack");
+
    module.exports = {
      plugins: [
        new webpack.DefinePlugin({
-         'process.env.NODE_ENV': JSON.stringify('production'),
-         'process.env.API_BASE_URL': JSON.stringify(process.env.API_BASE_URL)
-       })
-     ]
-   }
+         "process.env.NODE_ENV": JSON.stringify("production"),
+         "process.env.API_BASE_URL": JSON.stringify(process.env.API_BASE_URL),
+       }),
+     ],
+   };
    ```
 
 ### 任务 2: 实践资源压缩
 
 1. **构建前后对比**
-
    - 记录构建前的资源大小
    - 执行生产构建：`npm run build` 或 `yarn build`
    - 记录构建后的资源大小
@@ -404,49 +408,48 @@
    # 安装插件
    npm install vite-plugin-compression -D
    ```
-   
+
    ```typescript
    // vite.config.ts
-   import viteCompression from 'vite-plugin-compression'
-   
+   import viteCompression from "vite-plugin-compression";
+
    export default defineConfig({
      plugins: [
        vue(),
        viteCompression({
-         algorithm: 'gzip',
-         ext: '.gz',
+         algorithm: "gzip",
+         ext: ".gz",
          threshold: 1024, // 只压缩大于 1KB 的文件
-         deleteOriginFile: false // 保留原文件
-       })
-     ]
-   })
+         deleteOriginFile: false, // 保留原文件
+       }),
+     ],
+   });
    ```
 
 3. **启用 Brotli 压缩（Vite）**
 
    ```typescript
    // vite.config.ts
-   import viteCompression from 'vite-plugin-compression'
-   
+   import viteCompression from "vite-plugin-compression";
+
    export default defineConfig({
      plugins: [
        vue(),
        viteCompression({
-         algorithm: 'brotliCompress',
-         ext: '.br',
-         threshold: 1024
+         algorithm: "brotliCompress",
+         ext: ".br",
+         threshold: 1024,
        }),
        viteCompression({
-         algorithm: 'gzip',
-        ext: '.gz',
-        threshold: 1024
-       })
-     ]
-   })
+         algorithm: "gzip",
+         ext: ".gz",
+         threshold: 1024,
+       }),
+     ],
+   });
    ```
 
 4. **验证压缩效果**
-
    - 构建后检查 dist 目录，应该看到 `.gz` 和 `.br` 文件
    - 使用浏览器 DevTools Network 面板查看响应头
    - 检查 `Content-Encoding: gzip` 或 `Content-Encoding: br`
@@ -454,10 +457,9 @@
 ### 任务 3: 配置缓存策略
 
 1. **在构建工具中配置文件名 Hash**
-
    - **Vite**: 默认已启用 hash，格式为 `[name]-[hash]`
    - **Webpack**: 配置 `[contenthash]` 确保内容变化时 hash 变化
-   
+
    ```javascript
    // webpack.config.js
    output: {
@@ -473,24 +475,24 @@
    server {
      listen 80;
      server_name example.com;
-     
+
      root /var/www/html;
      index index.html;
-     
+
      # 静态资源长期缓存（1年）
      location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
        expires 1y;
        add_header Cache-Control "public, immutable";
        access_log off;
      }
-     
+
      # HTML 文件不缓存或短期缓存
      location ~* \.html$ {
        expires -1;
        add_header Cache-Control "no-cache, no-store, must-revalidate";
        add_header Pragma "no-cache";
      }
-     
+
      # 启用 ETag
      etag on;
    }
@@ -502,24 +504,24 @@
    # .htaccess
    <IfModule mod_expires.c>
      ExpiresActive On
-     
+
      # 静态资源 1 年
      ExpiresByType application/javascript "access plus 1 year"
      ExpiresByType text/css "access plus 1 year"
      ExpiresByType image/png "access plus 1 year"
      ExpiresByType image/jpg "access plus 1 year"
      ExpiresByType image/jpeg "access plus 1 year"
-     
+
      # HTML 不缓存
      ExpiresByType text/html "access plus 0 seconds"
    </IfModule>
-   
+
    <IfModule mod_headers.c>
      # 静态资源强缓存
      <FilesMatch "\.(js|css|png|jpg|jpeg|gif|ico|svg)$">
        Header set Cache-Control "public, max-age=31536000, immutable"
      </FilesMatch>
-     
+
      # HTML 不缓存
      <FilesMatch "\.html$">
        Header set Cache-Control "no-cache, no-store, must-revalidate"
@@ -528,7 +530,6 @@
    ```
 
 4. **测试缓存效果**
-
    - 使用浏览器 DevTools Network 面板
    - 首次加载：查看响应头 `Cache-Control` 和 `ETag`
    - 刷新页面：查看是否返回 `304 Not Modified`
@@ -540,24 +541,24 @@
 
    ```typescript
    // vite.config.ts
-   
+
    // 场景 1: 根域名部署
    export default defineConfig({
-     base: '/',
+     base: "/",
      // 生成的路径: /assets/js/main.js
-   })
-   
+   });
+
    // 场景 2: 相对路径部署（任意路径）
    export default defineConfig({
-     base: './',
+     base: "./",
      // 生成的路径: ./assets/js/main.js
-   })
-   
+   });
+
    // 场景 3: 子路径部署
    export default defineConfig({
-     base: '/my-app/',
+     base: "/my-app/",
      // 生成的路径: /my-app/assets/js/main.js
-   })
+   });
    ```
 
 2. **配置 Vue Router base（子路径部署）**
@@ -565,7 +566,7 @@
    ```javascript
    // router/index.js
    import { createRouter, createWebHistory } from 'vue-router'
-   
+
    const router = createRouter({
      history: createWebHistory('/my-app/'), // 与 vite.config.ts 中的 base 保持一致
      routes: [...]
@@ -573,7 +574,6 @@
    ```
 
 3. **验证路径配置**
-
    - 在不同 base 配置下构建项目
    - 检查 `dist/index.html` 中的资源路径
    - 使用本地服务器测试资源加载
@@ -591,22 +591,22 @@
          output: {
            manualChunks(id) {
              // node_modules 单独打包
-             if (id.includes('node_modules')) {
+             if (id.includes("node_modules")) {
                // 将大型库单独打包
-               if (id.includes('vue')) {
-                 return 'vue-vendor'
+               if (id.includes("vue")) {
+                 return "vue-vendor";
                }
-               if (id.includes('vue-router')) {
-                 return 'router-vendor'
+               if (id.includes("vue-router")) {
+                 return "router-vendor";
                }
                // 其他第三方库
-               return 'vendor'
+               return "vendor";
              }
-           }
-         }
-       }
-     }
-   })
+           },
+         },
+       },
+     },
+   });
    ```
 
 2. **配置代码分割（Webpack）**
@@ -641,42 +641,44 @@
 
    ```javascript
    // router/index.js
-   import { createRouter, createWebHistory } from 'vue-router'
-   
+   import { createRouter, createWebHistory } from "vue-router";
+
    const routes = [
      {
-       path: '/',
-       component: () => import('../views/Home.vue')
+       path: "/",
+       component: () => import("../views/Home.vue"),
      },
      {
-       path: '/about',
+       path: "/about",
        // 使用 webpackChunkName 指定 chunk 名称
-       component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+       component: () =>
+         import(/* webpackChunkName: "about" */ "../views/About.vue"),
      },
      {
-       path: '/user/:id',
-       component: () => import(/* webpackChunkName: "user" */ '../views/User.vue')
-     }
-   ]
-   
+       path: "/user/:id",
+       component: () =>
+         import(/* webpackChunkName: "user" */ "../views/User.vue"),
+     },
+   ];
+
    const router = createRouter({
      history: createWebHistory(),
-     routes
-   })
-   
-   export default router
+     routes,
+   });
+
+   export default router;
    ```
 
 4. **实现路由懒加载（React Router）**
 
    ```javascript
    // App.jsx
-   import { lazy, Suspense } from 'react'
-   import { BrowserRouter, Routes, Route } from 'react-router-dom'
-   
-   const Home = lazy(() => import('./views/Home'))
-   const About = lazy(() => import('./views/About'))
-   
+   import { lazy, Suspense } from "react";
+   import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+   const Home = lazy(() => import("./views/Home"));
+   const About = lazy(() => import("./views/About"));
+
    function App() {
      return (
        <BrowserRouter>
@@ -687,12 +689,11 @@
            </Routes>
          </Suspense>
        </BrowserRouter>
-     )
+     );
    }
    ```
 
 5. **分析构建产物**
-
    - 执行构建：`npm run build`
    - 查看 `dist` 目录中的文件结构
    - 检查 chunk 数量和大小
@@ -702,7 +703,6 @@
 ### 任务 6: 性能对比分析
 
 1. **构建前记录**
-
    - 执行构建，记录以下指标：
      - 构建产物总大小（`du -sh dist`）
      - 单个文件最大大小
@@ -712,7 +712,6 @@
      - CSS 文件总大小
 
 2. **优化后记录**
-
    - 完成所有优化配置后，重新构建
    - 重新记录上述所有指标
    - 计算优化比例：
@@ -722,18 +721,17 @@
 
 3. **生成对比报告**
 
-   | 指标 | 优化前 | 优化后 | 优化比例 |
-   |------|--------|--------|----------|
-   | 构建产物总大小 | XX MB | XX MB | XX% |
-   | 最大单个文件 | XX KB | XX KB | XX% |
-   | 文件数量 | XX 个 | XX 个 | - |
-   | 构建时间 | XX 秒 | XX 秒 | XX% |
-   | JS 总大小 | XX KB | XX KB | XX% |
-   | CSS 总大小 | XX KB | XX KB | XX% |
-   | Gzip 后大小 | - | XX KB | - |
+   | 指标           | 优化前 | 优化后 | 优化比例 |
+   | -------------- | ------ | ------ | -------- |
+   | 构建产物总大小 | XX MB  | XX MB  | XX%      |
+   | 最大单个文件   | XX KB  | XX KB  | XX%      |
+   | 文件数量       | XX 个  | XX 个  | -        |
+   | 构建时间       | XX 秒  | XX 秒  | XX%      |
+   | JS 总大小      | XX KB  | XX KB  | XX%      |
+   | CSS 总大小     | XX KB  | XX KB  | XX%      |
+   | Gzip 后大小    | -      | XX KB  | -        |
 
 4. **记录优化措施和效果**
-
    - 列出实施的优化措施
    - 记录每个优化措施的效果
    - 总结最佳实践和注意事项
@@ -916,4 +914,3 @@
    - 整理常用的配置模板
    - 总结不同场景下的最佳配置
    - 形成自己的部署配置规范
-

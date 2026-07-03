@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>视频测试</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #1a1a1a; color: #eee; }
+    .info { background: #2a2a2a; padding: 15px; border-radius: 8px; margin-bottom: 20px; word-break: break-all; font-size: 13px; }
+    .info h3 { color: #4fc3f7; margin-top: 0; }
+    .info .label { color: #aaa; }
+    .info .value { color: #81c784; }
+    .info .changed { color: #ff8a65; }
+    video { max-width: 100%; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <div class="info" id="result"></div>
+
+  <h3>视频播放测试：</h3>
+  <video id="video" class="web__video" preload="auto" controls></video>
+
+  <script>
+    const originalUrl = "http://private-esx.bigo.tv/as/live_file/ls3/21vyQlJRItwP.mp4?token=BIGO qybVYv-oH04CbS1vbkxa3JicSQo=:eyJidWNrZXQiOiJiaWdvbGl2ZWZpbGUtdmVyaWZ5IiwiZXhwaXJlcyI6MTc3Mjc4NzE0MCwiZmlsZVVybCI6Imh0dHA6Ly9wcml2YXRlLWVzeC5iaWdvLnR2L2FzL2xpdmVfZmlsZS9sczMvMjF2eVFsSlJJdHdQLm1wNCIsImZzaXplTGltaXQiOlsxLCA1MjQyODgwMF19&bucket=bigolivefile-verify&User=BigoAudit&crc=1875899118&type=32";
+
+    // 应用 replace(/["\\]/g, '\\$&') 转义
+    const escapedUrl = originalUrl.replace(/["\\]/g, '\\$&');
+
+    const isSame = originalUrl === escapedUrl;
+
+    document.getElementById('result').innerHTML = `
+      <h3>replace(/["\\\\]/g, '\\\\$&') 转义测试结果</h3>
+      <p><span class="label">原始 URL：</span><br><span class="value">${originalUrl}</span></p>
+      <p><span class="label">转义后 URL：</span><br><span class="${isSame ? 'value' : 'changed'}">${escapedUrl}</span></p>
+      <p><span class="label">是否有变化：</span><span class="${isSame ? 'changed' : 'value'}">${isSame ? '❌ 无变化（URL中不含 " 或 \\ 字符）' : '✅ 有变化'}</span></p>
+      <p><span class="label">真正的问题：</span><span class="changed">URL 中 token=BIGO 后面有空格，应该编码为 %20</span></p>
+    `;
+
+    // 用转义后的 URL 设置视频 src
+    document.getElementById('video').src = escapedUrl;
+  </script>
+</body>
+</html>
